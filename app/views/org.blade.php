@@ -14,10 +14,14 @@
                 </TD>
                 <TD>
                     <a href="{{URL::action('getOrg',$QueueOrganization->org_id) }}"> Edit </A>
-
                 </TD>
+                <TD>
+                    <!--<a href="{{URL::action('getOrg',$QueueOrganization->org_id) }}"> Delete </A>-->
+                    <a href="{{ URL::route('delete-org', $QueueOrganization->org_id) }}">del</a>
+                </TD>
+                
             </TR>        
-
+ 
         @endforeach
         </table>  
     @endif

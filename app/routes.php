@@ -29,18 +29,24 @@ Route::get('/orgs/{org_id}', [
         'as'    => 'getOrg',
         'uses'  => 'orgController@getOrg'
 ]);
-
-Route::get('/orgs/{org_id}/save', [
-        'as'    => 'editOrgSave',
-        'uses'  => 'orgController@editOrgSave'
-]);
 /*
-Route::get('/todo/new', [
-    'as' => 'new-task', 'uses' => 'TodoController@getNew'
+Route::put('/orgs/save/{org_id}', [
+        'as'    => 'edit-org',
+        'uses'  => 'orgController@editOrg'
 ]);
- 
-Route::post('/todo/new', [
-    'uses' => 'TodoController@postNew'
-])->before('csrf');
- 
- */
+
+*/
+Route::put('/orgs/save/{org_id}', [
+        'as'    => 'edit-org',
+        'uses'  => 'orgController@editOrg'
+]);
+
+/*
+Route::bind('Org', function($value, $route){
+    return Org::where('id', $value)->first();
+});
+*/
+Route::get('/orgs/delete/{org_id}', [
+        'as' => 'delete-org', 
+        'uses' => 'OrgController@deleteOrg'
+]);

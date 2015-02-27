@@ -2,30 +2,27 @@
 @section('content')
     <P>edit.blade.php</P>
     <?php
-    //editOrgSave($org_id, $orgname)
-    //$fruits = array (
-    //"fruits"  => array("a" => "orange", "b" => "banana", "c" => "apple"),
-    //"numbers" => array(1, 2, 3, 4, 5, 6),
-    //"holes"   => array("first", 5 => "second", "third")
-    //);
-    
-
-    //{{ Form::open(array('action' => 'OrgController@editOrgSave')) }}
-    //{{ Form::open(array('url'=>'orgs', 'method' =>'PUT')) }};
-    //{{ Form::close() }}
-    //{{Form::submit('save');}}
     
     //http://simple-training.com/laravel-todo/laravel-todo-intro/
+    //{{ Form::open(array('url'=>'saveOrg', 'method' =>'POST')) }}
+    //================================================================
+    //IT WORKS
+    //{{ Form::open(array('route' => 'edit-org','method' => 'put')) }}
+    //================================================================
+    //{{ Form::open(array('route' => array('edit-org',$QueueOrganization->org_id),'method' => 'put')) }}
+    //{{ Form::open(array('route' => 'edit-org','method' => 'put')) }}
+    //{{ Form::model($user, ['action'  => ['UserController@handleEditUser', $user->id], 'role'=> 'form']) }}
     ?>
     @if($orgs)
-    
+        
+        
         @foreach($orgs as $QueueOrganization)
-            {{ Form::open() }}
+        {{ Form::open(array('route' => 'edit-org','method' => 'put')) }}
             <table class='table table-striped'>
             <TR>        
                 <TD>
                     {{$QueueOrganization->org_id}}
-                    
+                    {{Form::hidden('org_id', $QueueOrganization->org_id)}}
                 </TD>
                 <TD>
                     <?php
@@ -39,9 +36,8 @@
                 </TD>    
             </TR>        
             </table>
-            {{ Form::close() }}
         @endforeach
-        
+        {{ Form::close() }}
     
     @endif
     
