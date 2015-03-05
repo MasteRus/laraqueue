@@ -50,3 +50,8 @@ Route::get('/orgs/delete/{org_id}', [
         'as' => 'delete-org', 
         'uses' => 'OrgController@deleteOrg'
 ]);
+
+
+Route::resource('s_q_orgs', 'S_q_orgsController');
+
+Route::resource('s_q_depts', 'S_q_deptsController');
