@@ -13,15 +13,21 @@
 
 	<body>
 
-		<div class="container">
-			@if (Session::has('message'))
-				<div class="flash alert">
-					<p>{{ Session::get('message') }}</p>
-				</div>
-			@endif
+            <div class="container">
 
-			@yield('main')
-		</div>
+                <ul class="nav nav-pills">
+                    <li>{{ link_to_route('s_q_orgs.index', 'Organizations') }}</li>
+                    <li>{{ link_to_route('s_q_depts.index', 'Departments') }}</li>
+                </ul>
+
+                @if (Session::has('message'))
+                    <div class="flash alert">
+                        <p>{{ Session::get('message') }}</p>
+                    </div>
+                @endif
+
+                @yield('main')
+            </div>
 
 	</body>
 
