@@ -21,5 +21,8 @@ class HomeController extends BaseController {
                 //return View::make('index')->with('QueueOrganizations', $QueueOrganizations);
 		return View::make('hello');
 	}
-
+    public function getAdmin()
+    {
+        return link_to(route('auth.logout'), 'Выход');
+    }
 }

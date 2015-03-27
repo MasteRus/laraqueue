@@ -18,6 +18,7 @@
                 <ul class="nav nav-pills">
                     <li>{{ link_to_route('s_q_orgs.index', 'Organizations') }}</li>
                     <li>{{ link_to_route('s_q_depts.index', 'Departments') }}</li>
+                    <li class="pull-right">{{ link_to_route('auth.logout', 'Logout') }}</li>
                 </ul>
 
                 @if (Session::has('message'))

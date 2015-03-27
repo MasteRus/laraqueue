@@ -51,7 +51,50 @@ Route::get('/orgs/delete/{org_id}', [
         'uses' => 'OrgController@deleteOrg'
 ]);
 
+Route::group(array('before' => 'guest'), function () 
+{
+    Route::get('login', array(
+        'as' => 'auth.login', 
+        'uses' => 'AuthController@getLogin'
+    ));
 
-Route::resource('s_q_orgs', 'S_q_orgsController');
+    Route::post('login', array(
+        'before' => 'csrf',
+        'uses' => 'AuthController@postLogin'
+    ));
+});
 
-Route::resource('s_q_depts', 'S_q_deptsController');
+Route::group(array('before' => 'auth'), function ()
+{
+    Route::get('admin', array(
+        'as' => 'admin',
+        'uses' => 'HomeController@getAdmin',
+    ));
+
+    Route::get('logout', array(
+        'as' => 'auth.logout',
+        'uses' => 'AuthController@getLogout'
+    ));
+    Route::resource('s_q_orgs', 'S_q_orgsController');
+    Route::resource('s_q_depts', 'S_q_deptsController');
+    
+    Route::get('createaccount', array(
+        'as' => 'auth.createaccount', 
+        'uses' => 'AuthController@getcreateaccount'
+    ));
+
+    Route::post('createaccount', array(
+        'before' => 'csrf',
+        'uses' => 'AuthController@postcreateaccount'
+    ));
+    Route::get('accounts', array(
+        'as' => 'getaccounts', 
+        'uses' => 'AuthController@getaccounts'
+    ));
+    
+    Route::get('accounts/{userid}', array(
+        'as' => 'auth.edit', 
+        'uses' => 'AuthController@GetSelectedAccount'
+    ));
+    
+}); 
