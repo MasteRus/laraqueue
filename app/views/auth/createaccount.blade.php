@@ -13,8 +13,9 @@
 
     <h2 class="form-signin-heading">{{ $title }}</h2>
 
-    {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'ФИО')) }}
-    {{ Form::text('email', null, array('class' => 'form-control', 'placeholder' => 'Логин')) }}
+    {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Username')) }}
+    {{ Form::text('email', null, array('class' => 'form-control', 'placeholder' => 'email')) }}
+
     {{ Form::label('password', 'Пароль') }}
     {{ Form::password('password', null,array('class' => 'form-control', 'placeholder' => 'Пароль')) }}
 

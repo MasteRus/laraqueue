@@ -49,7 +49,6 @@ class AuthController extends BaseController {
      */
     public function getLogout()
     {
-        
         Sentry::logout();
         return Redirect::route('auth.login');
     }
@@ -58,6 +57,56 @@ class AuthController extends BaseController {
     {
         $title = 'Создать аккаунт';
         return View::make('auth.createaccount', compact('title'));
+    }
+    
+    public function DeleteAccount($userid)
+    {
+        $user = Sentry::findUserById($userid);
+        $user->delete();
+        
+        return Redirect::route('getaccounts');
+    }
+    
+    public function PostEditAccount($userid)
+    {
+        echo $userid;
+        Input::flash();
+                    $credentials = array(
+                'username' => Input::get('username'), 
+                'email' => Input::get('email'), 
+                'password' => Input::get('password'),
+                //'activated'   => Input::get('activated'),
+            );
+        $id=Input::get('id');
+      
+        try
+        {
+            $user = Sentry::findUserById($id);
+            // Update the user details
+            $user->username= Input::get('username');
+            $user->email = Input::get('email');
+            // Update the user
+            if ($user->save())
+            {
+                // User information was updated
+            }
+            else
+            {
+                // User information was not updated
+            }
+        }
+        catch (Cartalyst\Sentry\Users\UserExistsException $e)
+        {
+            echo 'User with this login already exists.';
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        {
+            echo 'User was not found.';
+        }            
+            
+        //$user = Sentry::findUserById($userid);
+        
+        return Redirect::route('getaccounts');
     }
     
     public function postcreateaccount()
@@ -88,6 +137,7 @@ class AuthController extends BaseController {
             return Redirect::to(route('auth.createaccount'))
             ->withErrors(array($e->getMessage()));
         }
+        return Redirect::route('getaccounts');
     }
     public function getaccounts()
     {
@@ -100,8 +150,7 @@ class AuthController extends BaseController {
     public function GetSelectedAccount($userid)
     {
         $user = Sentry::findUserById($userid);
-        $user->email;
-        $user->username ;
+        
         return View::make('auth.edit')->with('users', $user);
     }
 }
