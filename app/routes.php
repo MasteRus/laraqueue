@@ -82,11 +82,12 @@ Route::group(array('before' => 'auth'), function ()
         'as' => 'auth.createaccount', 
         'uses' => 'AuthController@getcreateaccount'
     ));
-
+    
     Route::post('createaccount', array(
         'before' => 'csrf',
         'uses' => 'AuthController@postcreateaccount'
     ));
+
     Route::get('accounts', array(
         'as' => 'getaccounts', 
         'uses' => 'AuthController@getaccounts'
@@ -97,4 +98,22 @@ Route::group(array('before' => 'auth'), function ()
         'uses' => 'AuthController@GetSelectedAccount'
     ));
     
+    Route::post('accounts/{userid}', array(
+        'before' => 'csrf',
+        'uses' => 'AuthController@PostEditAccount'
+    ));
+    Route::patch('accounts/{userid}', array(
+        'before' => 'csrf',
+        'uses' => 'AuthController@PostEditAccount'
+    ));
+    //
+
+    Route::resource('groups', 'GroupsController');
+
+    Route::get('accounts/delete/{userid}', array(
+        'as' => 'auth.delete',
+        'uses' => 'AuthController@DeleteAccount'
+    ));
 }); 
+
+   

@@ -27,6 +27,12 @@
     </tr>
     <tr>
         <TD>
+        {{Form::label('groups', 'Группы')}}
+        {{Form::select('groups',$groups,null,array('multiple'=>'multiple','name'=>'groups[]'))}}
+        </TD>        
+    </tr>
+    <tr>
+        <TD>
             {{ Form::submit('Update', array('class' => 'btn btn-info')) }}
             
         </TD>        
