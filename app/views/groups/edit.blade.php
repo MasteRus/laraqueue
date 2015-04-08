@@ -21,35 +21,7 @@
     <tr>
         <TD>
         {{ Form::label('permissions', 'permissions') }}    
-        <?php
-        $group1 = Sentry::findGroupById($group->id);
-        $perms=array_keys($group1->getPermissions());
-        ?>
-            
-        @foreach ($perms as $perm)
-            {{Form::label('permissions[]', $perm) }} 
-            {{Form::checkbox('permissions[]', $perm, 'checked' ) }} 
-        @endforeach
-        
-        <?php
-         /*
-        {{ Form::label('permissions', 'permissions') }}    
         {{ Form::text('permissions', $group->permissions, array('class' => 'form-control', 'placeholder' => 'permissions')) }}
-
-            $permissions = $group->getPermissions();
-            if (!array_key_exists('admin', $permissions)) $permissions['admin'] = 0;
-            if (!array_key_exists('users', $permissions)) $permissions['users'] = 0;
-            ?>
-            <div class="form-group">
-                <label class="checkbox-inline">
-                {{ Form::checkbox('adminPermissions', 1, $permissions['admin'] ) }} Admin
-                </label>
-                <label class="checkbox-inline">
-                {{ Form::checkbox('userPermissions', 1, $permissions['users'] ) }} Users
-                </label>
-            </div>
-        */
-        ?>        
         </TD>
     </tr>
     <tr>
@@ -62,9 +34,5 @@
 {{ Form::close()}}
 </div>
 @stop
-<!--
-        'permissions' => array(
-            'user.create' => -1,
-            'user.update' => 1,
-        ),
--->
+
+

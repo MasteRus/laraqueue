@@ -108,8 +108,8 @@ class GroupsController extends Controller{
 	public function update($id)
 	{
 		$input = array_except(Input::all(), '_method');
-		$validation = Validator::make($input, Group::$rules);
-                
+		//$validation = Validator::make($input, Group::$rules);
+                /*
 		if ($validation->passes())
 		{
 			$group = $this->group->find($id);
@@ -122,10 +122,12 @@ class GroupsController extends Controller{
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');
-                
+                 * 
+                 * 
+                 */
                 $group = $this->group->find($id);
 		$group->update($input);
-                
+
 		return Redirect::route('groups.show', $id);
 	}
 

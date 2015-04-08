@@ -1,9 +1,6 @@
 @extends('layouts.scaffold')
 @section('main')
-    <?php $groups = array();
-    foreach (Group::get(array('id', 'name')) as $group) {
-        $groups[$group->id] = $group->name;
-    } ?>
+
 <h1>All users List</h1>
 <div>
     {{ Form::open(array('method' => 'PATCH', 'action' => array('AuthController@PostEditAccount')  )) }}
@@ -36,7 +33,8 @@
     </tr>
     <tr>
         <TD>
-        {{Form::submit('Update', array('class' => 'btn btn-info'))}}
+            {{ Form::submit('Update', array('class' => 'btn btn-info')) }}
+            
         </TD>        
     </tr>
 </tbody>
