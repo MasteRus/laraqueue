@@ -27,9 +27,20 @@
     </tr>
     <tr>
         <TD>
+            <?php
+                $groups = Sentry::findAllGroups();
+                $groupsnames=array();
+                foreach ($groups as $currentgroup)
+                {
+                    $groupsnames[$currentgroup['id']]=$currentgroup['name'];
+                }
+                $user = Sentry::findUserById($users->id);
+                $groups_id_by_user=$user->groups()->lists('group_id');
+            ?>
+            
         {{Form::label('groups', 'Группы')}}
-        {{Form::select('groups',$groups,null,array('multiple'=>'multiple','name'=>'groups[]'))}}
-        </TD>        
+        {{Form::select('groups',$groupsnames,$groups_id_by_user,array('multiple'=>'multiple','name'=>'groups[]'))}}
+        </TD>      
     </tr>
     <tr>
         <TD>

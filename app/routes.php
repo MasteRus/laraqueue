@@ -116,4 +116,5 @@ Route::group(array('before' => 'auth'), function ()
     ));
 }); 
 
-   
+
+Route::resource('s_q_services', 'S_q_servicesController');

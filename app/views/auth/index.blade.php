@@ -18,6 +18,7 @@
 <tbody>
 @foreach ($users as $user)
     <tr>
+        <td>{{{ $user->id }}}</td>
         <td>{{{ $user->username }}}</td>
         <td>{{{ $user->email }}}</td>
         <td>{{ link_to_route('auth.edit', 'Edit', array('id' => $user->id), array('class' => 'btn btn-info')) }}</td>

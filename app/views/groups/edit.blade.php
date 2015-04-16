@@ -18,10 +18,29 @@
         {{ Form::text('name', $group->name, array('class' => 'form-control', 'placeholder' => 'name')) }}
         </TD>
     </tr>
+    <!--
     <tr>
         <TD>
         {{ Form::label('permissions', 'permissions') }}    
         {{ Form::text('permissions', $group->permissions, array('class' => 'form-control', 'placeholder' => 'permissions')) }}
+        </TD>
+    </tr>
+    -->
+    <tr>
+        <TD>
+            <?php
+            // Find the group using the group id
+                $group1 = Sentry::findGroupById($group->id);
+                //$gPermissions = array_keys($group1->getPermissions());
+                $gPermissions = array_keys($group1->getPermissions());
+                //Bug:
+            ?>
+        {{ Form::label('permissions', 'permissions') }}    
+        @foreach ($gPermissions as $perm)
+            {{ Form::label('permissions[]', $perm) }}
+            {{ Form::checkbox('permissions[]', $perm, array('class' => 'form-control', 'placeholder' => 'permissions[]')) }}
+        @endforeach
+        
         </TD>
     </tr>
     <tr>

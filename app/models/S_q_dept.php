@@ -5,6 +5,6 @@ class S_q_dept extends Eloquent {
 
 	public static $rules = array(
 		'name' => 'required',
-		'org_id' => 'required|min:1|max:1'
+		'org_id' => 'required|min:1'
 	);
 }
