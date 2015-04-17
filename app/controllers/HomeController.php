@@ -23,6 +23,7 @@ class HomeController extends BaseController {
 	}
     public function getAdmin()
     {
-        return link_to(route('auth.logout'), 'Выход');
+        //return link_to(route('auth.logout'), 'Выход');
+        return View::make('index');
     }
 }

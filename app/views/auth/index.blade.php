@@ -5,9 +5,6 @@
 
 <p>{{ link_to_route('auth.createaccount', 'Create Account') }}</p>
 @if ($users->count())
-<PRE>
-
-</PRE>
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -23,7 +20,6 @@
         <td>{{{ $user->email }}}</td>
         <td>{{ link_to_route('auth.edit', 'Edit', array('id' => $user->id), array('class' => 'btn btn-info')) }}</td>
         <td>{{ link_to_route('auth.delete', 'Delete', array('id' => $user->id), array('class' => 'btn btn-danger')) }}</td>
-        
     </tr>
 @endforeach
 </tbody>
