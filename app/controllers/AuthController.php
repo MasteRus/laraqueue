@@ -85,52 +85,49 @@ class AuthController extends BaseController {
             // Update the user details
             $user->username= Input::get('username');
             $user->email = Input::get('email');
-                // Get the current user groups
-                // REturn current user groups by name
-                // Type of result:String, filed=ID
-            
-            
-                //GEt All Groups
-                $userGroups = $user->groups()->lists('group_id');
-                $AllGroups=Sentry::findAllGroups();
-                $AllGroupsById=array();
-                foreach ($AllGroups as $group2)
-                {
-                    array_push($AllGroupsById,$group2->id);
-                }
-                
-                //            
-                $group_numbers = Input::get('groups');
-                $group_numbers_by_id= array();
-               
+            // Get the current user groups
+            // REturn current user groups by name
+            // Type of result:String, filed=ID
+
+
+            //GEt All Groups
+            //$userGroups = $user->groups()->lists('group_id');
+            $AllGroups=Sentry::findAllGroups();
+            $AllGroupsById=array();
+            foreach ($AllGroups as $group2)
+            {
+                array_push($AllGroupsById,$group2->id);
+            }
+
+            //Get checked Groups            
+            $group_numbers = Input::get('groups');
+            $group_numbers_by_id= array();
+            if ($group_numbers)
+            {
                 foreach ($group_numbers as $group2)
                 {
                     array_push($group_numbers_by_id,intval($group2));
                 }
-                
-                $groupsToAdd    = array_intersect($AllGroupsById, $group_numbers_by_id);
-                $groupsToRemove = array_diff($AllGroupsById, $group_numbers_by_id);
-                // Assign the user to groups
-                foreach ($groupsToAdd as $groupId)
-                {
-                    $group = Sentry::getGroupProvider()->findById($groupId);
+            }
+            // Find groups to add
+            $groupsToAdd    = array_intersect($AllGroupsById, $group_numbers_by_id);
+            // Find groups to remove
+            $groupsToRemove = array_diff($AllGroupsById, $group_numbers_by_id);
+            // Add user into the groups
+            foreach ($groupsToAdd as $groupId)
+            {
+                $group = Sentry::getGroupProvider()->findById($groupId);
 
-                    $user->addGroup($group);
-                }
+                $user->addGroup($group);
+            }
 
-                // Remove the user from groups
-                foreach ($groupsToRemove as $groupId)
-                {
-                    $group = Sentry::getGroupProvider()->findById($groupId);
-
-                    $user->removeGroup($group);
-                }
+            // Remove the user from groups
+            foreach ($groupsToRemove as $groupId)
+            {
+                $group = Sentry::getGroupProvider()->findById($groupId);
+                $user->removeGroup($group);
+            }
            
-            //dd($group_numbers);
-            //$user->addGroup( Sentry::getGroupProvider()->findByName('Managers') );
-            // $selectedGroup = Sentry::findGroupById(1);
-            // Assign the group to the user
-            //$user->addGroup($selectedGroup);
             // Update the user
             if ($user->save())
             {

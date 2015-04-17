@@ -29,18 +29,41 @@
     <tr>
         <TD>
             <?php
-            // Find the group using the group id
+                // Find the group using the group id
                 $group1 = Sentry::findGroupById($group->id);
                 //$gPermissions = array_keys($group1->getPermissions());
-                $gPermissions = array_keys($group1->getPermissions());
-                //Bug:
+                $gPermissions = $group1->getPermissions();
+                /*
+                // TODO: REFACTORING NEEDed!!!!!
+                //
+                 */
+                $s_q_services=array();
+                foreach (S_q_service::get(array('id', 'name')) as $s_q_serv) {
+                    $s_q_services[$s_q_serv->id] = array($s_q_serv->id, $s_q_serv->name);
+                } 
+            //{"superuser":1}
             ?>
-        {{ Form::label('permissions', 'permissions') }}    
-        @foreach ($gPermissions as $perm)
-            {{ Form::label('permissions[]', $perm) }}
-            {{ Form::checkbox('permissions[]', $perm, array('class' => 'form-control', 'placeholder' => 'permissions[]')) }}
-        @endforeach
+            
         
+        {{ Form::label('permissions', 'Permissions') }}
+        {{ Form::label('permissions[]', 'Superuser') }}
+        @if (array_key_exists('superuser',$gPermissions))
+            <input type="checkbox" name="permissions[]" id="superuser" value="superuser" checked>"superuser"              
+        @else
+            <input type="checkbox" name="permissions[]" id="superuser" value="superuser">"superuser"              
+        @endif
+        <BR>
+        {{ Form::label('permissions[]', 'Service permissions') }}
+        @foreach ($s_q_services as $serv)
+            
+            @if (array_key_exists($serv[0],$gPermissions))
+  		<input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}" checked>{{$serv[1]}}"
+                
+            @else
+                <input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}">"{{$serv[1]}}"              
+            @endif
+                <BR>
+        @endforeach
         </TD>
     </tr>
     <tr>

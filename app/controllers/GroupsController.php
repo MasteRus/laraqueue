@@ -108,13 +108,16 @@ class GroupsController extends Controller{
 	public function update($id)
 	{
 		$input = array_except(Input::all(), '_method');
-                $perms=array_values($input['permissions']);
-                $result_array=array();
-               
-                foreach ($perms as $perm){
-                    $result_array[$perm] = 1;
-                }
-                $input['permissions']=json_encode($result_array);
+                if (isset($input['permissions']))
+                {
+                    $perms=array_values($input['permissions']);
+                    $result_array=array();
+
+                    foreach ($perms as $perm){
+                        $result_array[$perm] = 1;
+                    }
+                    $input['permissions']=json_encode($result_array);
+                } else $input['permissions']=NULL;
 		$validation = Validator::make($input, Group::$rules);                
 		if ($validation->passes())
 		{
