@@ -20,7 +20,8 @@
                     <li>{{ link_to_route('s_q_depts.index', 'Departments') }}</li>
                     <li>{{ link_to_route('s_q_services.index', 'Services') }}</li>
                     
-                    <li class="pull-right">{{ link_to_route('auth.logout', 'Logout') }}</li>
+                    <li class="pull-right">{{ link_to_route('auth.logout',  'Logout') }}</li>
+                    <li class="pull-right">{{Sentry::getUser()->username;}}</li>
                     <li class="pull-right">{{ link_to_route('getaccounts', 'Accounts') }}</li>
                     <li class="pull-right">{{ link_to_route('groups.index', 'Groups') }}</li>
                 </ul>

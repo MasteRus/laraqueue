@@ -75,46 +75,51 @@ Route::group(array('before' => 'auth'), function ()
         'as' => 'auth.logout',
         'uses' => 'AuthController@getLogout'
     ));
+    
+
+    //- See more at: http://laravelsnippets.com/snippets/sentry-route-filters#sthash.NsmoUvVW.dpuf    
+    
+    //Route::group(array('before' => 'Sentry|hasAccess:superuser'), function()
+    //{
+
+    //});   
+    
+    
+    Route::group(array('before' => 'adminfilter2'), function()
+    {
+        Route::resource('groups', 'GroupsController');
+        
+        Route::get('createaccount', array(
+            'as' => 'auth.createaccount', 
+            'uses' => 'AuthController@getcreateaccount'
+        ));
+        Route::post('createaccount', array(
+            'before' => 'csrf',
+            'uses' => 'AuthController@postcreateaccount'
+        ));
+        Route::get('accounts', array(
+            'as' => 'getaccounts', 
+            'uses' => 'AuthController@getaccounts'
+        ));
+        Route::get('accounts/{userid}', array(
+            'as' => 'auth.edit', 
+            'uses' => 'AuthController@GetSelectedAccount'
+        ));
+        Route::post('accounts/{userid}', array(
+            'before' => 'csrf',
+            'uses' => 'AuthController@PostEditAccount'
+        ));
+        Route::patch('accounts/{userid}', array(
+            'before' => 'csrf',
+            'uses' => 'AuthController@PostEditAccount'
+        ));
+        Route::get('accounts/delete/{userid}', array(
+            'as' => 'auth.delete',
+            'uses' => 'AuthController@DeleteAccount'
+        ));
+    });   
+    
     Route::resource('s_q_orgs', 'S_q_orgsController');
     Route::resource('s_q_depts', 'S_q_deptsController');
-    
-    Route::get('createaccount', array(
-        'as' => 'auth.createaccount', 
-        'uses' => 'AuthController@getcreateaccount'
-    ));
-    
-    Route::post('createaccount', array(
-        'before' => 'csrf',
-        'uses' => 'AuthController@postcreateaccount'
-    ));
-
-    Route::get('accounts', array(
-        'as' => 'getaccounts', 
-        'uses' => 'AuthController@getaccounts'
-    ));
-    
-    Route::get('accounts/{userid}', array(
-        'as' => 'auth.edit', 
-        'uses' => 'AuthController@GetSelectedAccount'
-    ));
-    
-    Route::post('accounts/{userid}', array(
-        'before' => 'csrf',
-        'uses' => 'AuthController@PostEditAccount'
-    ));
-    Route::patch('accounts/{userid}', array(
-        'before' => 'csrf',
-        'uses' => 'AuthController@PostEditAccount'
-    ));
-    //
-
-    Route::resource('groups', 'GroupsController');
-
-    Route::get('accounts/delete/{userid}', array(
-        'as' => 'auth.delete',
-        'uses' => 'AuthController@DeleteAccount'
-    ));
+    Route::resource('s_q_services', 'S_q_servicesController');
 }); 
-
-
-Route::resource('s_q_services', 'S_q_servicesController');
