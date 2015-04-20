@@ -56,91 +56,11 @@ Route::filter('guest', function()
     if (Sentry::check()) return Redirect::to('/');
 });
 
-Route::filter('Sentry', function()
-{
-    if (! Sentry::check()) {
-        return Redirect::route('admin');
-    }
-});
-
-/**
-* hasAcces filter (permissions)
-*
-* Check if the user has permission (group/user)
-*/
-Route::filter('hasAccess', function($route, $request, $value)
-{
-    try
-    {
-    $user = Sentry::getUser();
-
-    if( ! $user->hasAccess($value))
-        {
-        return Redirect::route('admin');
-        }
-    }
-    catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
-    {
-        return Redirect::route('admin');
-    }
-});
-
-/**
-* InGroup filter
-*
-* Check if the user belongs to a group
-*/
-Route::filter('inGroup', function($route, $request, $value)
-{
-    try
-    {
-        $user = Sentry::getUser();
-        $group = Sentry::findGroupByName($value);
-            if( ! $user->inGroup($group))
-            {
-                return Redirect::route('admin');
-            }
-    }
-    catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
-    {
-        //return Redirect::route('admin')->withErrors(array(Lang::get('user.notfound')));
-        return Redirect::route('admin');
-    }
-    catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
-    {
-        return Redirect::route('admin');
-    }
-});
-
-/////////////////////////////////////////////////
-
-Route::filter('adminfilter', function()
-{
-  $user = Sentry::getUser();
-  $admin = Sentry::findGroupByName('superusergroup');
-  if (!$user->inGroup($admin)) return Redirect::to('admin')->with('message', 'Access Denied' );
-});
-
-///////////////////////////////////////
-// Filter on current access by group //
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-// ! It's a main variant             //
-///////////////////////////////////////
 Route::filter('adminfilter2', function()
 {
   $user = Sentry::getUser();
-  $admin = Sentry::findGroupByName('superusergroup');
-  
-  //dd( $user->inGroup($admin));
-  if (!$user->hasAccess('superusergroup')) return Redirect::to('admin')->with('message', 'Access Denied' );
+  if (!$user->hasAccess('superuser')) return Redirect::to('admin')->with('message', 'Access Denied' );
 });
-
-//
-//
-/////////////////////////////////////////////////
-
-
-
 /*
 |--------------------------------------------------------------------------
 | CSRF Protection Filter
