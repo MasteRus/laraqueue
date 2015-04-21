@@ -87,6 +87,10 @@ Route::group(array('before' => 'auth'), function ()
     
     Route::group(array('before' => 'adminfilter2'), function()
     {
+        Route::resource('s_q_orgs', 'S_q_orgsController');
+        Route::resource('s_q_depts', 'S_q_deptsController');
+        Route::resource('s_q_services', 'S_q_servicesController');
+        
         Route::resource('groups', 'GroupsController');
         
         Route::get('createaccount', array(
@@ -118,8 +122,4 @@ Route::group(array('before' => 'auth'), function ()
             'uses' => 'AuthController@DeleteAccount'
         ));
     });   
-    
-    Route::resource('s_q_orgs', 'S_q_orgsController');
-    Route::resource('s_q_depts', 'S_q_deptsController');
-    Route::resource('s_q_services', 'S_q_servicesController');
 }); 
