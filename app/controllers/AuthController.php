@@ -70,7 +70,7 @@ class AuthController extends BaseController {
     public function PostEditAccount($userid)
     {
         Input::flash();
-                    $credentials = array(
+        $credentials = array(
                 'username' => Input::get('username'), 
                 'email' => Input::get('email'), 
                 'password' => Input::get('password'),
@@ -163,7 +163,18 @@ class AuthController extends BaseController {
                 'activated'   => true
             );
             $user = Sentry::createUser($credentials);
+            //Get checked Groups            
+            $group_numbers = Input::get('groups');
+
+            if ($group_numbers)
+            {
+                foreach ($group_numbers as $group2)
+                {
+                    $group = Sentry::getGroupProvider()->findById(intval($group2));
+                    $user->addGroup($group);
+                }
             }
+        }
         catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
         {
             echo 'Login field is required.';
