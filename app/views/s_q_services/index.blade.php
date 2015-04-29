@@ -10,6 +10,7 @@
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
+                                <th>id</th>
 				<th>Name</th>
 				<th>Description</th>
 				<th>Priority</th>
@@ -18,16 +19,19 @@
 				<th>Display</th>
 				<th>Inet</th>
 				<th>Deleted</th>
+                                <th></th>
+                                <th></th>
 			</tr>
 		</thead>
 
 		<tbody>
 			@foreach ($s_q_services as $s_q_service)
 				<tr>
+                                        <td>{{{ $s_q_service->id }}}</td>
 					<td>{{{ $s_q_service->name }}}</td>
 					<td>{{{ $s_q_service->description }}}</td>
 					<td>{{{ $s_q_service->priority }}}</td>
-					<td>{{{ $s_q_service->parent_id }}}</td>
+					<td>{{{ $s_q_service->parent_id }}} {{{$servnames[$s_q_service->parent_id]}}}</td>
 					<td>{{{ $s_q_service->enabled }}}</td>
 					<td>{{{ $s_q_service->display }}}</td>
 					<td>{{{ $s_q_service->inet }}}</td>

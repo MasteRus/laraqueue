@@ -50,7 +50,9 @@ Route::get('/orgs/delete/{org_id}', [
         'as' => 'delete-org', 
         'uses' => 'OrgController@deleteOrg'
 ]);
-
+/*********************************************
+ * Authentification
+ *********************************************/
 Route::group(array('before' => 'guest'), function () 
 {
     Route::get('login', array(
@@ -66,6 +68,10 @@ Route::group(array('before' => 'guest'), function ()
 
 Route::group(array('before' => 'auth'), function ()
 {
+/*********************************************
+ * Main admin page
+ *********************************************/
+
     Route::get('admin', array(
         'as' => 'admin',
         'uses' => 'HomeController@getAdmin',
@@ -83,13 +89,24 @@ Route::group(array('before' => 'auth'), function ()
     //{
 
     //});   
-    
-    
+    /*********************************************
+     * Only for admins
+     *********************************************/
     Route::group(array('before' => 'adminfilter2'), function()
     {
         Route::resource('s_q_orgs', 'S_q_orgsController');
         Route::resource('s_q_depts', 'S_q_deptsController');
         Route::resource('s_q_services', 'S_q_servicesController');
+        
+        Route::get('treeindex', array(
+            'as' => 'S_q_services.treeindex', 
+            'uses' => 'S_q_servicesController@treeindex'
+        ));
+        Route::get('buildTree', array(
+            'as' => 'buildTree', 
+            'uses' => 'S_q_servicesController@buildTree'
+        ));
+        //Route::get('foo/bar', 'FooController@bar');
         
         Route::resource('groups', 'GroupsController');
         

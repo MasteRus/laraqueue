@@ -22,8 +22,14 @@ class S_q_servicesController extends BaseController {
 	public function index()
 	{
 		$s_q_services = $this->s_q_service->all();
+                
+                $servnames=array();
+                $servnames[0]="";
+                    foreach ($s_q_services as $s_q_serv) {
+                        $servnames[$s_q_serv->id]=$s_q_serv->name;
+                    }
 
-		return View::make('s_q_services.index', compact('s_q_services'));
+		return View::make('s_q_services.index', compact('s_q_services'),compact('servnames'));
 	}
 
 	/**
@@ -127,5 +133,30 @@ class S_q_servicesController extends BaseController {
 
 		return Redirect::route('s_q_services.index');
 	}
+
+        
+        
+	public function treeindex($ParentID=0)
+	{
+                 $s_q_services = $this->s_q_service->all();
+                 
+                foreach ($s_q_services as $serv)
+                {
+                    $array[(int)$serv->id]=array(
+                        'id' => $serv->id,
+                        'name' => $serv->name,
+                        'parent_id' => $serv->parent_id,
+                            );
+                }
+                //$tree=Helpers::buildTree($array);
+                
+                 
+                return View::make('s_q_services/treeindex', compact('s_q_services'));
+	}
+        
+        
+
+        
+
 
 }

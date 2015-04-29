@@ -1,5 +1,4 @@
-@extends('layouts.scaffold')
-
+@extends('layout')
 
 @section('main')
 <div class="container">
