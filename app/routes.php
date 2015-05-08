@@ -138,5 +138,24 @@ Route::group(array('before' => 'auth'), function ()
             'as' => 'auth.delete',
             'uses' => 'AuthController@DeleteAccount'
         ));
+        
+        Route::get('loggedusers', array(
+            'as' => 'getloggedusers', 
+            'uses' => 'AuthController@getloggedusers'
+        ));
+        Route::get('terminal/index', array(
+            'as' => 'getterminalindex', 
+            'uses' => 'S_q_servicesController@getterminalindex'
+        ));
+        Route::get('terminal/index/{parent_id}', array(
+            'as' => 'getterminalindex', 
+            'uses' => 'S_q_servicesController@getterminalindex'
+        ));
+        
+        Route::post('terminal/index/{parent_id}', array(
+            'as' => 'postterminalindex', 
+            'uses' => 'S_q_servicesController@postterminalindex'
+        ));
+        
     });   
 }); 

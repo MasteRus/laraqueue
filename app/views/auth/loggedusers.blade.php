@@ -4,7 +4,7 @@
 <h1>All users List</h1>
 
 <p>{{ link_to_route('auth.createaccount', 'Create Account') }}</p>
-@if ($users->count())
+
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -17,10 +17,11 @@
 
 <tbody>
 @foreach ($users as $user)
-<!-- //@TODO @REFACTORING NEEDed-->
+
    <?php
     $userSentry = Sentry::findUserByID($user->id);
     $groups = $userSentry->getGroups();
+
    ?>
 
     <tr>
@@ -38,9 +39,5 @@
 @endforeach
 </tbody>
 </table>
-@else
-	There are no users
-@endif
+
 @stop
-
-

@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"way/generators":"1.*",
-		"cartalyst/sentry":"2.1.*"
+		"cartalyst/sentry":"2.1.*",
+		"braunson/laravel-html5-forms": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

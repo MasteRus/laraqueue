@@ -123,7 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
                 'Way\Generators\GeneratorsServiceProvider',
                 'Cartalyst\Sentry\SentryServiceProvider',
-                
+                'Braunson\LaravelHTML5Forms\LaravelHTML5FormsServiceProvider',
 	),
 
 	/*

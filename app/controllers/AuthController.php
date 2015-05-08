@@ -197,14 +197,44 @@ class AuthController extends BaseController {
     {
         $users = User::get();
         //return View::make('index')->with('posts', $users);
-        
+       
         return View::make('auth.index')->with('users', $users);
     }
     
     public function GetSelectedAccount($userid)
     {
+       
         $user = Sentry::findUserById($userid);
         
         return View::make('auth.edit')->with('users', $user);
+    }
+    
+    public function getloggedusers()
+    {
+         $users1 = Sentry::findAllUsers();
+         $checked_logged=array();
+         
+         //$users = Sentry::user()->all();
+
+         foreach ($users1 as $user)
+            {
+                
+                if (Sentry::check())
+                //if ( ! $user->check())
+                {
+                    $checked_logged[$user->id]=1;
+                    // User is not logged in, or is not activated
+                }
+                //else
+                {
+                    $checked_logged[$user->id]=0;
+                    // User is logged in
+                }
+            }
+        //return View::make('index')->with('posts', $users);
+        
+        return View::make('auth.loggedusers')
+                ->with('users', $users1)
+                ->with('checked_logged',$checked_logged);
     }
 }

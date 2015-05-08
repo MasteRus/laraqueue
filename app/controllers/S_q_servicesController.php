@@ -138,8 +138,7 @@ class S_q_servicesController extends BaseController {
         
 	public function treeindex($ParentID=0)
 	{
-                 $s_q_services = $this->s_q_service->all();
-                 
+                $s_q_services = $this->s_q_service->all();
                 foreach ($s_q_services as $serv)
                 {
                     $array[(int)$serv->id]=array(
@@ -149,14 +148,44 @@ class S_q_servicesController extends BaseController {
                             );
                 }
                 //$tree=Helpers::buildTree($array);
-                
-                 
                 return View::make('s_q_services/treeindex', compact('s_q_services'));
 	}
         
+        public function getterminalindex($parent_id=0)
+        {
+            $array=array();
+            $s_q_services = S_q_service::where('parent_id', $parent_id)->get();
+            
+            $parent=array('parent_id'=>$parent_id);
+            
+            return View::make('terminal/index', compact('s_q_services'),compact('parent'));
+        }
         
+        public function postterminalindex($parent_id=0)
+        {
+            $input = array_except(Input::all(), '_method');
+            /*
+            $validation = Validator::make($input, S_q_service::$rules);
+            
 
-        
+            if ($validation->passes())
+            {
+                    $s_q_service = $this->s_q_service->find($id);
+                    $s_q_service->update($input);
+
+                    return Redirect::route('s_q_services.show', $id);
+            }
+            */
+            DB::insert('insert into actionslog (fio,email,choosed_datetime,service_id) values (?,?,?,?)',
+                    array($input['fio'],$input['email'],$input['choosed_datetime'],$input['service_id']) );
+            
+            
+            return Redirect::refresh()
+                    ->withInput()
+                    ->withErrors($validation)
+                    ->with('message', 'There were validation errors.');
+
+        }
 
 
 }
