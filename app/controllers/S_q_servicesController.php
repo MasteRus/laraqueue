@@ -153,17 +153,31 @@ class S_q_servicesController extends BaseController {
         
         public function getterminalindex($parent_id=0)
         {
-            $array=array();
+
             $s_q_services = S_q_service::where('parent_id', $parent_id)->get();
+            $all_services=array();
+            //$all_services=$s_q_services;
+
+            foreach ($s_q_services as $serv)
+            {
+                $choosed_services=S_q_service::where('parent_id', $serv->id)->count();
+                //$choosed_services[$i++]=$serv->name;
+                $all_services[$serv->id]=$choosed_services;
+                //array_push($all_services, $choosed_services);
+            }
+            $parent=array('parent_id'=>$parent_id,'text' => 'getterminalindex');
             
-            $parent=array('parent_id'=>$parent_id);
-            
-            return View::make('terminal/index', compact('s_q_services'),compact('parent'));
+            //return View::make('terminal/index', compact('s_q_services'),compact('parent'),compact('all_services'));
+            return View::make('terminal/index',compact('s_q_services'))
+                    ->with('parent',$parent)
+                    ->with('all_services',$all_services)
+                ;
         }
         
-        public function postterminalindex($parent_id=0)
+        public function postterminalindex($parent_id)
         {
             $input = array_except(Input::all(), '_method');
+            
             /*
             $validation = Validator::make($input, S_q_service::$rules);
             
@@ -176,14 +190,45 @@ class S_q_servicesController extends BaseController {
                     return Redirect::route('s_q_services.show', $id);
             }
             */
-            DB::insert('insert into actionslog (fio,email,choosed_datetime,service_id) values (?,?,?,?)',
-                    array($input['fio'],$input['email'],$input['choosed_datetime'],$input['service_id']) );
-            
-            
+            //dd($input );
+            $queryresult=DB::insert('insert into actionslog (service_id,created_at) values (?,?)',array((int)($input['service_id']),new DateTime));
+            //dd($queryresult);
+            /*
+            DB::insert('insert into actionslog (service_id) values (?)',
+                    array($input['service_id']) );
+             * 
+             
+            $serviceid=$input['service_id'];
+             * 
+             */
+            //return View::make('terminal/index', compact('queryresult'),compact('input'),compact('service_printed'),compact('serviceid'));
+            /*
             return Redirect::refresh()
                     ->withInput()
-                    ->withErrors($validation)
-                    ->with('message', 'There were validation errors.');
+                    //->withErrors($validation)
+                    //->with('message', 'There were validation errors.')
+                    ;
+            */
+            $s_q_services = S_q_service::where('parent_id', (int)($input['service_id']))->get();
+            $all_services=array();
+            //$all_services=$s_q_services;
+
+            foreach ($s_q_services as $serv)
+            {
+                $choosed_services=S_q_service::where('parent_id', $serv->id)->count();
+                //$choosed_services[$i++]=$serv->name;
+                $all_services[$serv->id]=$choosed_services;
+                //array_push($all_services, $choosed_services);
+            }
+            $parent=array('parent_id'=>(int)($input['service_id']),'text' => 'getterminalindex');
+            
+            //return View::make('terminal/index', compact('s_q_services'),compact('parent'),compact('all_services'));
+            return View::make('terminal/index',compact('s_q_services'))
+                    ->with('parent',$parent)
+                    ->with('all_services',$all_services)
+                ;
+
+            
 
         }
 

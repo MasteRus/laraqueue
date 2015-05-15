@@ -19,9 +19,9 @@ class Actionslog extends Migration {
 			$table->datetime('choosed_datetime');
 
                         $table->integer('service_id');
-                        $table->foreign('service_id')->references('service_id')->on('onlinerecord_services');
-
                         $table->timestamps();
+                        
+                        $table->foreign('service_id')->references('id')->on('s_q_services');
 		});
 	}
 

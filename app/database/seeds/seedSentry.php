@@ -4,6 +4,7 @@ class SentrySeeder extends Seeder {
 
     public function run()
     {
+        /*
         DB::table('groups')->delete();
         try
         {
@@ -25,6 +26,8 @@ class SentrySeeder extends Seeder {
             echo 'Group already exists';
 
         }
+         *
+         */
     }
 }
 

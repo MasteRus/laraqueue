@@ -11,4 +11,4 @@
         @yield('styles')
         <title>QueueServer</title>
     </head>
-    <body>Header
+    <body>
