@@ -20,36 +20,6 @@ Route::get('/', [
         'uses'  => 'HomeController@index'
 ]);
 
-Route::get('/orgs', [
-        'as'    => 'getOrgsList',
-        'uses'  => 'orgController@getOrgsList'
-]);
-
-Route::get('/orgs/{org_id}', [
-        'as'    => 'getOrg',
-        'uses'  => 'orgController@getOrg'
-]);
-/*
-Route::put('/orgs/save/{org_id}', [
-        'as'    => 'edit-org',
-        'uses'  => 'orgController@editOrg'
-]);
-
-*/
-Route::put('/orgs/save/{org_id}', [
-        'as'    => 'edit-org',
-        'uses'  => 'orgController@editOrg'
-]);
-
-/*
-Route::bind('Org', function($value, $route){
-    return Org::where('id', $value)->first();
-});
-*/
-Route::get('/orgs/delete/{org_id}', [
-        'as' => 'delete-org', 
-        'uses' => 'OrgController@deleteOrg'
-]);
 /*********************************************
  * Authentification
  *********************************************/
@@ -97,6 +67,7 @@ Route::group(array('before' => 'auth'), function ()
         Route::resource('s_q_orgs', 'S_q_orgsController');
         Route::resource('s_q_depts', 'S_q_deptsController');
         Route::resource('s_q_services', 'S_q_servicesController');
+        Route::resource('s_q_operplaces', 'S_q_operplacesController');
         
         Route::get('treeindex', array(
             'as' => 'S_q_services.treeindex', 
@@ -106,10 +77,9 @@ Route::group(array('before' => 'auth'), function ()
             'as' => 'buildTree', 
             'uses' => 'S_q_servicesController@buildTree'
         ));
-        //Route::get('foo/bar', 'FooController@bar');
         
         Route::resource('groups', 'GroupsController');
-        
+        //*******************Accounts*******************
         Route::get('createaccount', array(
             'as' => 'auth.createaccount', 
             'uses' => 'AuthController@getcreateaccount'
@@ -143,6 +113,7 @@ Route::group(array('before' => 'auth'), function ()
             'as' => 'getloggedusers', 
             'uses' => 'AuthController@getloggedusers'
         ));
+        //*******************TERMINAL*******************
         Route::get('terminal/index', array(
             'as' => 'getterminalindex', 
             'uses' => 'S_q_servicesController@getterminalindex'
@@ -159,3 +130,5 @@ Route::group(array('before' => 'auth'), function ()
         
     });   
 }); 
+
+

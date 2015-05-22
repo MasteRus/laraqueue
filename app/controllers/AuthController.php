@@ -12,7 +12,8 @@ class AuthController extends BaseController {
     public function getLogin()
     {
         $title = 'Вход';
-        return View::make('auth.login', compact('title'));
+        $operplaces=(S_q_operplace::all()->lists('name','id'));
+        return View::make('auth.login', compact('title'),  compact('operplaces'));
     }
 
     /**
@@ -31,15 +32,35 @@ class AuthController extends BaseController {
                 'password' => Input::get('password')
             );
             $user = Sentry::authenticate($credentials, Input::get('remember-me'));
+            //$queryresult=DB::insert('insert into operators_log (status) values (?)',array('Logon'));
+            
         } catch (Exception $e) {
             
-            return Redirect::to(route('auth.login'))
+             return Redirect::to(route('auth.login'))
                 ->withErrors(array($e->getMessage()));
         }
         
+        $dtime=new DateTime();
+
         
         
-        return Redirect::intended(route('admin'));
+        //return Redirect::to('accounts')->with('message', 'test');
+        //return Redirect::intended('accounts')->with('message', 'test');
+        //$place=S_q_operplace::all()->lists('id')->where('name','=',Input::get('operplace'));
+        $operplace_name = S_q_operplace::where('id','=',Input::get('operplace'))->first()->name;
+        
+        $queryresult=DB::insert('insert into operators_log '
+        . '(status,user_id,created_on,operplace_id) '
+        . 'values (?,?,?,?)',
+        array('Logon',
+        $user->id, 
+        $dtime,
+        (int)(Input::get('operplace'))
+        )
+        );
+        return Redirect::intended()
+                ->with('message', 'Welcome! Your operplace is '.Input::get('operplace').' and number ='.$operplace_name);
+        //return Redirect::intended(route('getterminalindex'))->withErrors(array('test'));
     }
 
     /**
@@ -49,7 +70,18 @@ class AuthController extends BaseController {
      */
     public function getLogout()
     {
+        $user = Sentry::getUser();
         Sentry::logout();
+        
+        $queryresult=DB::insert('insert into operators_log '
+        . '(status,user_id,created_on,operplace_id) '
+        . 'values (?,?,?)',
+        array('Logout',
+        $user->id, 
+        $dtime,
+        
+        )
+        );
         return Redirect::route('auth.login');
     }
     

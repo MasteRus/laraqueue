@@ -191,7 +191,7 @@ class S_q_servicesController extends BaseController {
             }
             */
             //dd($input );
-            $queryresult=DB::insert('insert into actionslog (service_id,created_at) values (?,?)',array((int)($input['service_id']),new DateTime));
+            $queryresult=DB::insert('insert into terminal_log (service_id,created_at) values (?,?)',array((int)($input['service_id']),new DateTime));
             //dd($queryresult);
             /*
             DB::insert('insert into actionslog (service_id) values (?)',
@@ -226,6 +226,7 @@ class S_q_servicesController extends BaseController {
             return View::make('terminal/index',compact('s_q_services'))
                     ->with('parent',$parent)
                     ->with('all_services',$all_services)
+                    ->with('message',$queryresult)
                 ;
 
             

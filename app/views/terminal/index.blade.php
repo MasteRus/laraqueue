@@ -4,7 +4,11 @@
 
 @if ($s_q_services->count())
 <h1>Choose Your Service</h1>
-
+@if (isset($message))
+<PRE>{{$message}}</PRE>
+@else
+Not Found
+@endif;
 <h2>H2={{$parent['parent_id']}}</h2>
 <ul>
     @foreach ($s_q_services as $s_q_service)

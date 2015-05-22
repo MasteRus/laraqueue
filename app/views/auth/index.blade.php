@@ -4,6 +4,8 @@
 <h1>All users List</h1>
 
 <p>{{ link_to_route('auth.createaccount', 'Create Account') }}</p>
+
+
 @if ($users->count())
 <table class="table table-striped table-bordered">
     <thead>

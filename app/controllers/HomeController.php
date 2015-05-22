@@ -19,7 +19,8 @@ class HomeController extends BaseController {
 	{
                 //$QueueOrganizations = QueueOrganizations::get();
                 //return View::make('index')->with('QueueOrganizations', $QueueOrganizations);
-		return View::make('hello');
+		//return View::make('hello');
+                return View::make('index');
 	}
     public function getAdmin()
     {
