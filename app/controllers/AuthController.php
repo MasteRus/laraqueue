@@ -18,14 +18,14 @@ class AuthController extends BaseController {
 
     /**
      * Аутентифицирует и редиректит в админку
-     *
+     * Authentification and redirect to admin panel
      * @return Illuminate\Http\RedirectResponse
      */
     public function postLogin()
     {
         
         Input::flash();
-        
+        $operplace_number=(int)(Input::get('operplace'));
         try {
             $credentials = array(
                 'username' => Input::get('username'), 
@@ -55,34 +55,55 @@ class AuthController extends BaseController {
         array('Logon',
         $user->id, 
         $dtime,
-        (int)(Input::get('operplace'))
+        $operplace_number
         )
         );
+        
+        //$queryresult=DB::update('update operstatus set user_id=?, status=\'User entered to the system\' where operplace_id=? ',array($user->id,$operplace_number));
+        $queryresult=DB::update('update operstatus set user_id=?, status=\'start_pause\' where operplace_id=? ',array($user->id,$operplace_number));
         return Redirect::intended()
                 ->with('message', 'Welcome! Your operplace is '.Input::get('operplace').' and number ='.$operplace_name);
         //return Redirect::intended(route('getterminalindex'))->withErrors(array('test'));
     }
 
     /**
-     * Обрабатывает выход
-     *
+     * Обрабатывает выход операторов
+     * Operators logout
      * @return Illuminate\Http\RedirectResponse
      */
     public function getLogout()
     {
+        //Get current_user gor geting user_id
         $user = Sentry::getUser();
-        Sentry::logout();
+        
+        //What time is it now? For logging
+        $dt = new DateTime();
+        //echo $dt->format('Y-m-d H:i:s');
+        
+        $operstatus_operplace_id=DB::table('operstatus')
+                ->select('operplace_id')
+                ->where('user_id','=',$user->id)
+                ->first();  //Returns object
+        
+        //Changing operstatus of current place
+        //TODO: We need to change route of all our clients, which in this queue
+        //CODING_STYLE
+        $queryresult=DB::update('update operstatus set user_id=NULL,session_id=NULL, status=\'disabled\' where user_id=? and operplace_id=?',
+                array($user->id,$operstatus_operplace_id->operplace_id));
         
         $queryresult=DB::insert('insert into operators_log '
         . '(status,user_id,created_on,operplace_id) '
-        . 'values (?,?,?)',
+        . 'values (?,?,?,?)',
         array('Logout',
         $user->id, 
-        $dtime,
+        $dt,
+        $operstatus_operplace_id->operplace_id
+        ));
         
-        )
-        );
+        Sentry::logout();
         return Redirect::route('auth.login');
+        
+        //return Redirect::route('auth.login');
     }
     
     public function getcreateaccount()

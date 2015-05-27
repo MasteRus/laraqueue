@@ -22,6 +22,8 @@
                     <li>{{ link_to_route('s_q_operplaces.index', 'OperPlaces') }}</li>
                     
                     <li class="pull-right">{{ link_to_route('auth.logout',  'Logout') }}</li>
+                    <!-- Technical information - SessionID-->
+                    <li class="pull-right">{{Session::getId()}}</li>
                     <li class="pull-right">{{Sentry::getUser()->username;}}</li>
                     <li class="pull-right">{{ link_to_route('getaccounts', 'Accounts') }}</li>
                     <li class="pull-right">{{ link_to_route('groups.index', 'Groups') }}</li>

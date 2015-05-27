@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder {
                 //$this->call('SentrySeeder');
 		$this->call('S_q_servicesTableSeeder');
 		$this->call('S_q_operplacesTableSeeder');
+		$this->call('Operstatus_initialTableSeeder');
 	}
 
 }

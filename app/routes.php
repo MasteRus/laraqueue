@@ -20,6 +20,10 @@ Route::get('/', [
         'uses'  => 'HomeController@index'
 ]);
 
+Route::get('test', [
+        'as'    => 'test',
+        'uses'  => 'HomeController@test'
+]);
 /*********************************************
  * Authentification
  *********************************************/

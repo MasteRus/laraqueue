@@ -11,9 +11,6 @@
         @endforeach
     </div>
     @endif
-    <PRE>
-        {{var_dump($operplaces)}}
-    </PRE>
     <h2 class="form-signin-heading">{{ $title }}</h2>
     {{ Form::label('username','username')}}
     {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Логин')) }}
