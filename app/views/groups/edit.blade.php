@@ -40,8 +40,8 @@
                 $s_q_services=array();
                 foreach (S_q_service::get(array('id', 'name')) as $s_q_serv) {
                     $s_q_services[$s_q_serv->id] = array($s_q_serv->id, $s_q_serv->name);
-                } 
-            //{"superuser":1}
+                }
+                //{"superuser":1}
             ?>
             
         
@@ -56,9 +56,8 @@
         {{ Form::label('permissions[]', 'Service permissions') }}
         @foreach ($s_q_services as $serv)
             
-            @if (array_key_exists($serv[0],$gPermissions))
+            @if ((array_key_exists($serv[0],$gPermissions))&&($gPermissions[$serv[0]]))
   		<input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}" checked>{{$serv[1]}}"
-                
             @else
                 <input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}">"{{$serv[1]}}"              
             @endif

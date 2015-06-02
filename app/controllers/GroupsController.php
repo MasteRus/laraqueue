@@ -64,8 +64,57 @@ class GroupsController extends Controller{
 			->with('message', 'There were validation errors.');
                  * 
                  */
-                $this->group->create($input);
-                return Redirect::route('groups.index');
+                //$this->group->create($input);
+                $s_q_services=(S_q_service::all()->lists('id'));
+                $result_array=array();
+                
+
+                if (isset($input['permissions']))
+                {
+                    //add unchecked superuser permissions
+                    if (!isset($result_array["superuser"])) 
+                        $result_array["superuser"]=0;
+                    //add checked permissions
+                    $perms=array_values($input['permissions']);
+                    foreach ($perms as $perm){
+                        $result_array[$perm] = 1;
+                    }
+                    //add unchecked permissions
+                    foreach ($s_q_services as $s_q_service){
+                        $index=intval($s_q_service);
+                        if (!isset($result_array[$index])) 
+                            $result_array[$index]=0;
+                    }
+                    
+                } else
+                {
+                    //No permissions - adding to array
+                    $result_array["superuser"]=0;
+                    foreach ($s_q_services as $s_q_service){
+                        $index=intval($s_q_service);
+                        $result_array[$index]=0;
+                    }
+                }
+                $input['permissions']=json_encode($result_array);
+                        
+		$validation = Validator::make($input, Group::$rules);                
+		if ($validation->passes())
+		{
+			$this->group->create($input);
+
+			return Redirect::route('groups.index');
+		}
+
+                return Redirect::route('groups.create')
+			->withInput()
+			->withErrors($validation)
+			->with('message', 'There were validation errors.');
+                
+                //$group = $this->group->find($id);
+		//$group->update($input);
+                //$this->group->create($input);
+
+                //return Redirect::route('groups.index');
 	}
 
 	/**
