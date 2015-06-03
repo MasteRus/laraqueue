@@ -13,9 +13,10 @@ class TerminalLog extends Migration {
 			$table->string('fio');
 			$table->string('email');
 			$table->datetime('choosed_datetime');
-			$table->integer('service_id')->unsigned();
+			$table->integer('service_id')->unsigned()->nullable();
+                        //$table->foreign('service_id')->references('id')->on('s_q_services')->onDelete('cascade');;
                         $table->timestamps();
-                        $table->foreign('service_id')->references('id')->on('s_q_services');
+                        
 		});
                 
                 

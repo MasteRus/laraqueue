@@ -57,9 +57,9 @@
         @foreach ($s_q_services as $serv)
             
             @if ((array_key_exists($serv[0],$gPermissions))&&($gPermissions[$serv[0]]))
-  		<input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}" checked>{{$serv[1]}}"
+  		<input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}" checked>{{$serv[0]}}_"{{$serv[1]}}"
             @else
-                <input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}">"{{$serv[1]}}"              
+                <input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}">{{$serv[0]}}_"{{$serv[1]}}"              
             @endif
                 <BR>
         @endforeach
