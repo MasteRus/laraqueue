@@ -31,7 +31,13 @@
 					<td>{{{ $s_q_service->name }}}</td>
 					<td>{{{ $s_q_service->description }}}</td>
 					<td>{{{ $s_q_service->priority }}}</td>
-					<td>{{{ $s_q_service->parent_id }}} {{{$servnames[$s_q_service->parent_id]}}}</td>
+					<td>
+                                            {{{ $s_q_service->parent_id }}} 
+                                            @if (isset($servnames[$s_q_service->parent_id]))
+                                                {{{$servnames[$s_q_service->parent_id]}}}
+                                            @endif
+                                        </td>
+                                            
 					<td>{{{ $s_q_service->enabled }}}</td>
 					<td>{{{ $s_q_service->display }}}</td>
 					<td>{{{ $s_q_service->inet }}}</td>
