@@ -72,7 +72,7 @@ Route::group(array('before' => 'auth'), function ()
         Route::resource('s_q_depts', 'S_q_deptsController');
         Route::resource('s_q_services', 'S_q_servicesController');
         Route::resource('s_q_operplaces', 'S_q_operplacesController');
-        
+        //Tree builder
         Route::get('treeindex', array(
             'as' => 'S_q_services.treeindex', 
             'uses' => 'S_q_servicesController@treeindex'
@@ -135,4 +135,9 @@ Route::group(array('before' => 'auth'), function ()
     });   
 }); 
 
+//Debug
+Route::get('phpinfo', [
+        'as'    => 'phpinfo',
+        'uses'  => 'HomeController@index2'
+]);
 
