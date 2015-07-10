@@ -10,7 +10,7 @@
         foreach ($array as $element) {
             if (is_array($element))
             {   
-                echo "<LI>".$element['name']."</LI>";
+                echo "<LI>".$element['id']." ".$element['name']."</LI>";
                 if (array_key_exists('children',$element))
                 {
                     echo "<ul>";

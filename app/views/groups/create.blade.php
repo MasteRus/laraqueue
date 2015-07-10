@@ -32,7 +32,7 @@
             <input type="checkbox" name="permissions[]" id="superuser" value="superuser">"superuser"              
             <BR>
             @foreach ($s_q_services as $serv)
-                <input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}">"{{$serv[1]}}"              
+                <input type="checkbox" name="permissions[]" id="{{$serv[0]}}" value="{{$serv[0]}}">"{{$serv[0]}} {{$serv[1]}}"              
                 <BR>
             @endforeach
         </TD>
