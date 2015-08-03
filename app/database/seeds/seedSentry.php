@@ -72,6 +72,7 @@ class SentrySeeder extends Seeder {
         
         //KSK NORM
         $ksk_rights='{'
+                .'"superuser":0,'
                 . '"24":1,'
                 . '"37":1,"38":1,'
                 . '"39":1,"40":1,'
@@ -89,7 +90,9 @@ class SentrySeeder extends Seeder {
         );
         
         //UAIG 108
-        $uaig108rights='{"6":1,"7":1,'//Schemes and Gradplans
+        $uaig108rights='{'
+                .'"superuser":0,'
+                . '"6":1,"7":1,'//Schemes and Gradplans
                 . '"10":1,"11":1,'//10 Прием обращений, заявлений, запросов организаций
                                   //11 Подготовка техзадания на инженерное обеспечение объекта
                 . '"25":1,"26":1,"27":1,"28":1,'//Publichka, Coordinates
@@ -107,7 +110,9 @@ class SentrySeeder extends Seeder {
                 array($uaig108rights,$group108->name)
         );
         
-        $uaig104rights='{"15":1,"16":1,"17":1,"18":1,"19":1}';
+        $uaig104rights='{'
+                .'"superuser":0,'
+                . '"15":1,"16":1,"17":1,"18":1,"19":1}';
         $group104=Sentry::getGroupProvider()->create(array(
             'name'        => 'UAIG 104',
             )
