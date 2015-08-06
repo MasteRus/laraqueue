@@ -117,7 +117,8 @@ Route::group(array('before' => 'auth'), function ()
             'as' => 'getloggedusers', 
             'uses' => 'AuthController@getloggedusers'
         ));
-        //*******************TERMINAL*******************
+    });
+    //*******************TERMINAL*******************
         Route::get('terminal/index', array(
             'as' => 'getterminalindex', 
             'uses' => 'S_q_servicesController@getterminalindex'
@@ -131,8 +132,45 @@ Route::group(array('before' => 'auth'), function ()
             'as' => 'postterminalindex', 
             'uses' => 'S_q_servicesController@postterminalindex'
         ));
+    
+    //*********************PULT*********************
+        Route::get('pult/index', array(
+            'as' => 'getpult', 
+            'uses' => 'PultController@index'
+        ));
         
-    });   
+        Route::post('pult/FinishServing', array(
+            'as' => 'FinishServing', 
+            'uses' => 'PultController@FinishServing'
+        ));
+        Route::post('pult/callNextVisiter', array(
+            'as' => 'callNextVisiter', 
+            'uses' => 'PultController@callNextVisiter'
+
+        ));
+        
+        Route::post('pult/StartPause', array(
+            'as' => 'StartPause', 
+            'uses' => 'PultController@StartPause'
+        ));
+        Route::post('pult/StopPause', array(
+            'as' => 'StopPause', 
+            'uses' => 'PultController@StopPause'
+        ));
+        Route::post('pult/RedirectVisiterTo', array(
+            'as' => 'RedirectVisiterTo', 
+            'uses' => 'PultController@RedirectVisiterTo'
+        ));
+        Route::post('pult/GetNextUserBeforeChoosen', array(
+            'as' => 'GetNextUserBeforeChoosen', 
+            'uses' => 'PultController@GetNextUserBeforeChoosen'
+        ));
+        
+        Route::post('pult/ExitPult', array(
+            'as' => 'ExitPult', 
+            'uses' => 'PultController@ExitPult'
+        ));
+        
 }); 
 
 //Debug

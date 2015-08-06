@@ -177,38 +177,9 @@ class S_q_servicesController extends BaseController {
         public function postterminalindex($parent_id)
         {
             $input = array_except(Input::all(), '_method');
+            $current_Date=new DateTime;
+            $queryresult=DB::insert('insert into terminal_log (service_id,created_at) values (?,?)',array((int)($input['service_id']),$current_Date));
             
-            /*
-            $validation = Validator::make($input, S_q_service::$rules);
-            
-
-            if ($validation->passes())
-            {
-                    $s_q_service = $this->s_q_service->find($id);
-                    $s_q_service->update($input);
-
-                    return Redirect::route('s_q_services.show', $id);
-            }
-            */
-            //dd($input );
-            $queryresult=DB::insert('insert into terminal_log (service_id,created_at) values (?,?)',array((int)($input['service_id']),new DateTime));
-            //dd($queryresult);
-            /*
-            DB::insert('insert into actionslog (service_id) values (?)',
-                    array($input['service_id']) );
-             * 
-             
-            $serviceid=$input['service_id'];
-             * 
-             */
-            //return View::make('terminal/index', compact('queryresult'),compact('input'),compact('service_printed'),compact('serviceid'));
-            /*
-            return Redirect::refresh()
-                    ->withInput()
-                    //->withErrors($validation)
-                    //->with('message', 'There were validation errors.')
-                    ;
-            */
             $s_q_services = S_q_service::where('parent_id', (int)($input['service_id']))->get();
             $all_services=array();
             //$all_services=$s_q_services;
@@ -221,12 +192,43 @@ class S_q_servicesController extends BaseController {
                 //array_push($all_services, $choosed_services);
             }
             $parent=array('parent_id'=>(int)($input['service_id']),'text' => 'getterminalindex');
-            
+                    /*
+                        $table->increments('id');
+                        $table->dateTime('datetime');
+                        $table->integer('number');
+                        $table->string('prefix');
+                        $table->string('status');//Created, InQueue%NUMB%, InService, Finished, Retranslated, Cancelled
+                        
+                        $table->integer('s_q_operplaces_id')->unsigned()->nullable();
+                        $table->integer('user_id')->unsigned()->nullable();
+                     */
             //return View::make('terminal/index', compact('s_q_services'),compact('parent'),compact('all_services'));
-            return View::make('terminal/index',compact('s_q_services'))
+            
+            $maximal_number_in_queue_today=DB::select('SELECT count(*) as MaxNumber '
+                    . 'FROM MainQueue '
+                    . 'WHERE datetime >= DATE( NOW( ) ) '
+                    );
+            
+            //if (!$maximal_number_in_queue_today) $maximal_number_in_queue_today=1;
+            
+            $NewMainQueueTicket=New MainQueue;
+            $NewMainQueueTicket->service_id=(int)($input['service_id']);
+            $NewMainQueueTicket->status='created';
+            $NewMainQueueTicket->datetime=$current_Date;
+            $NewMainQueueTicket->number=((int)($maximal_number_in_queue_today[0]->MaxNumber));
+            $NewMainQueueTicket->save();
+
+            return Redirect::route('getterminalindex', compact('s_q_services'))
                     ->with('parent',$parent)
                     ->with('all_services',$all_services)
-                    ->with('message',$queryresult)
+                    ->with(
+                            'message',  
+                            (int)($maximal_number_in_queue_today[0]->MaxNumber)+1
+                          )
+            //return View::make('terminal/index',compact('s_q_services'))
+            //        ->with('parent',$parent)
+            //        ->with('all_services',$all_services)
+            //        ->with('message',$queryresult)
                 ;
 
             

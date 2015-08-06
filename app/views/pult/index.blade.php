@@ -1,12 +1,54 @@
-@extends('layouts.default')
+@extends('layouts.scaffold')
 
 @section('main')
 
+Pult/index
+<!-- Standard button 
+    btn-default - white
+    btn-primary - Blue
+    btn-success - green
+    btn-info - light-blue
+    btn-warning - orange
+    btn-danger - red
+-->
+{{ Form::label('USER',Sentry::getUser()->id)}}
 
-<td>
-{{ Form::open(array('method' => 'post', 'route' => array('s_q_services.destroy', $s_q_service->id))) }}
-    {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+
+{{ Form::open(array('route' => 'FinishServing')) }}
+{{ Form::hidden('userid', Sentry::getUser()->id)}}
+{{ Form::submit('FinishServing', array('class' => 'btn btn-primary', 'value'=>'FinishServing')) }}
 {{ Form::close() }}
-</td>
+
+{{ Form::open(array('route' => 'callNextVisiter')) }}
+{{ Form::hidden('userid', Sentry::getUser()->id)}}
+{{ Form::submit('callNextVisiter', array('class' => 'btn btn-success', 'value'=>'callNextVisiter')) }}
+{{ Form::close() }}
+
+{{ Form::open(array('route' => 'StartPause')) }}
+{{ Form::hidden('operplace_id', 0)}}
+{{ Form::submit('StartPause', array('class' => 'btn btn-warning', 'value'=>'StartPause')) }}
+{{ Form::close() }}
+
+{{ Form::open(array('route' => 'StopPause')) }}
+{{ Form::hidden('operplace_id', 0)}}
+{{ Form::submit('StopPause', array('class' => 'btn btn-warning', 'value'=>'StopPause')) }}
+{{ Form::close() }}
+       
+      
+{{ Form::open(array('route' => 'RedirectVisiterTo')) }}
+{{ Form::hidden('operplace_id', 0)}}
+{{ Form::submit('RedirectVisiterTo', array('class' => 'btn btn-warning', 'value'=>'StopPause')) }}
+{{ Form::close() }}
+
+{{ Form::open(array('route' => 'GetNextUserBeforeChoosen')) }}
+{{ Form::hidden('operplace_id', 0)}}
+{{ Form::submit('GetNextUserBeforeChoosen', array('class' => 'btn btn-warning', 'value'=>'GetNextUserBeforeChoosen')) }}
+{{ Form::close() }}
+
+{{ Form::open(array('route' => 'ExitPult')) }}
+{{ Form::hidden('operplace_id', 0)}}
+{{ Form::submit('ExitPult', array('class' => 'btn btn-danger', 'value'=>'ExitPult')) }}
+{{ Form::close() }}
+
 
 @stop
