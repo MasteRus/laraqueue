@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class OperatorsLog extends Migration {
+class OperatorsLogTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -19,7 +19,6 @@ class OperatorsLog extends Migration {
 			$table->timestamp('created_on');
                         $table->integer('operplace_id')->unsigned()->nullable();
                         
-                        
                         $table->index('user_id');
                         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
                         
@@ -27,8 +26,6 @@ class OperatorsLog extends Migration {
                         $table->foreign('operplace_id')->references('id')->on('s_q_operplaces')->onDelete('cascade');;
 		});
 	}
-
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -36,7 +33,12 @@ class OperatorsLog extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('operators_log');
+            Schema::table('operators_log', function($table)
+            {
+                $table->dropForeign('operators_log_service_id_foreign');
+                $table->dropForeign('operators_log_s_q_operplaces_id_foreign');
+                $table->dropForeign('operators_log_user_id_foreign');
+            });
+            Schema::drop('operators_log');
 	}
-
 }

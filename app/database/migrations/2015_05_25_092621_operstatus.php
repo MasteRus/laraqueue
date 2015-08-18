@@ -20,7 +20,8 @@ class Operstatus extends Migration {
                         //$table->foreign('session_id')->references('id')->on('session')->onDelete('cascade');;
 
                         $table->integer('operplace_id')->unsigned()->nullable();;
-                        //$table->foreign('operplace_id')->references('id')->on('s_q_operplaces')->onDelete('cascade');;
+                        $table->foreign('operplace_id')->references('id')->on('s_q_operplaces')->onDelete('cascade');;
+                        
                         $table->string('status');
 		});
 	}
@@ -33,6 +34,13 @@ class Operstatus extends Migration {
 	 */
 	public function down()
 	{
+            
+                Schema::table('operstatus', function($table)
+                    {
+                        $table->dropForeign('operstatus_operplace_id_foreign');
+                        $table->dropForeign('operstatus_user_id_foreign');
+                    });
+             
 		Schema::drop('operstatus');
 	}
 

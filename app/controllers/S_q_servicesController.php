@@ -215,7 +215,7 @@ class S_q_servicesController extends BaseController {
             $NewMainQueueTicket->service_id=(int)($input['service_id']);
             $NewMainQueueTicket->status='created';
             $NewMainQueueTicket->datetime=$current_Date;
-            $NewMainQueueTicket->number=((int)($maximal_number_in_queue_today[0]->MaxNumber));
+            $NewMainQueueTicket->number=((int)($maximal_number_in_queue_today[0]->MaxNumber)+1);
             $NewMainQueueTicket->save();
 
             return Redirect::route('getterminalindex', compact('s_q_services'))
