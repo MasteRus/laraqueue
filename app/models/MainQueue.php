@@ -7,5 +7,8 @@ class MainQueue extends Eloquent {
         
         protected $table = 'MainQueue';
         public $timestamps = false;
-        
+        public function service()
+        {
+          return $this->hasMany('S_q_service','service_id');
+        }
 }

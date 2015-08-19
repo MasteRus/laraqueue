@@ -25,44 +25,44 @@ class AuthController extends BaseController {
     {
         
         Input::flash();
-        $operplace_number=(int)(Input::get('operplace'));
+        $operplace_number=Input::get('operplace');
         try {
             $credentials = array(
                 'username' => Input::get('username'), 
                 'password' => Input::get('password')
             );
             $user = Sentry::authenticate($credentials, Input::get('remember-me'));
-            //$queryresult=DB::insert('insert into operators_log (status) values (?)',array('Logon'));
+            $current_Date=new DateTime();
             
+            $operplace_name = S_q_operplace::where('id','=',$operplace_number)->first()->name;
+
+            //Add to Log
+            $OperLogEntry=New OperatorsLog;
+            $OperLogEntry->status='Logon';
+            $OperLogEntry->user_id=$user->id;
+            $OperLogEntry->created_on=$current_Date;
+            $OperLogEntry->operplace_id=$operplace_number;
+            $OperLogEntry->save();
+
+            //Update OperStatus table
+            $CurrentOperplace = OperStatus::
+                where('operplace_id','=',$operplace_number)->
+                    update(array(
+                        'user_id'=>$user->id,
+                        'status'=>'start_pause',
+                    ));
+            
+            Session::put('operplace_id', $operplace_number);
+            Session::put('user_id',$user->id);
         } catch (Exception $e) {
-            
              return Redirect::to(route('auth.login'))
                 ->withErrors(array($e->getMessage()));
         }
         
-        $dtime=new DateTime();
-
         
-        
-        //return Redirect::to('accounts')->with('message', 'test');
-        //return Redirect::intended('accounts')->with('message', 'test');
-        //$place=S_q_operplace::all()->lists('id')->where('name','=',Input::get('operplace'));
-        $operplace_name = S_q_operplace::where('id','=',Input::get('operplace'))->first()->name;
-        
-        $queryresult=DB::insert('insert into operators_log '
-        . '(status,user_id,created_on,operplace_id) '
-        . 'values (?,?,?,?)',
-        array('Logon',
-        $user->id, 
-        $dtime,
-        $operplace_number
-        )
-        );
-        
-        //$queryresult=DB::update('update operstatus set user_id=?, status=\'User entered to the system\' where operplace_id=? ',array($user->id,$operplace_number));
-        $queryresult=DB::update('update operstatus set user_id=?, status=\'start_pause\' where operplace_id=? ',array($user->id,$operplace_number));
-        return Redirect::intended()
-                ->with('message', 'Welcome! Your operplace is '.Input::get('operplace').' and number ='.$operplace_name);
+        return Redirect::intended()//address wich user input before redirected to login page
+                ->with('message', 'Welcome! Your operplace is '. $operplace_number.' and number ='.$operplace_name);
+                //->with('message','<PRE>'.dd($CurrentOperplace).'</PRE>');
         //return Redirect::intended(route('getterminalindex'))->withErrors(array('test'));
     }
 
@@ -83,27 +83,30 @@ class AuthController extends BaseController {
         $operstatus_operplace_id=DB::table('operstatus')
                 ->select('operplace_id')
                 ->where('user_id','=',$user->id)
-                ->first();  //Returns object
+                ->first()->operplace_id;  //Returns object
         
-        //Changing operstatus of current place
         //TODO: We need to change route of all our clients, which in this queue
-        //CODING_STYLE
-        $queryresult=DB::update('update operstatus set user_id=NULL,session_id=NULL, status=\'disabled\' where user_id=? and operplace_id=?',
-                array($user->id,$operstatus_operplace_id->operplace_id));
+
+        $CurrentOperplace = OperStatus::
+            where('user_id','=',$user->id)->
+                where('operplace_id','=',$operstatus_operplace_id)->
+                update(array(
+                    'user_id'=>NULL,
+                    'status'=>'disabled',
+                     'session_id'=>NULL
+                ));
         
-        $queryresult=DB::insert('insert into operators_log '
-        . '(status,user_id,created_on,operplace_id) '
-        . 'values (?,?,?,?)',
-        array('Logout',
-        $user->id, 
-        $dt,
-        $operstatus_operplace_id->operplace_id
-        ));
+        //Log operations
+        $OperLogEntry=New OperatorsLog;
+        $OperLogEntry->status='disabled';
+        $OperLogEntry->user_id=$user->id;
+        $OperLogEntry->created_on=$dt;
+        $OperLogEntry->operplace_id=$operstatus_operplace_id;
+        $OperLogEntry->save();
         
         Sentry::logout();
-        return Redirect::route('auth.login');
-        
-        //return Redirect::route('auth.login');
+        return Redirect::route('auth.login')
+            ->with('message', 'You successfully logout!');
     }
     
     public function getcreateaccount()
@@ -130,8 +133,6 @@ class AuthController extends BaseController {
                 //'activated'   => Input::get('activated'),
             );
         $id=Input::get('id');
-        
-      
         try
         {
             $user = Sentry::findUserById($id);
