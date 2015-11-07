@@ -19,8 +19,8 @@ class AddForeignOrgIdToSQOrg extends Migration {
              
              */
             Schema::table('s_q_depts', function(Blueprint $table) {
-                $table->index('org_id');
-                $table->foreign('org_id')->references('id')->on('s_q_orgs')->onDelete('cascade');
+                //$table->index('org_id');
+                //$table->foreign('org_id')->references('id')->on('s_q_orgs')->onDelete('cascade');
             });
 	}
 
@@ -39,8 +39,8 @@ class AddForeignOrgIdToSQOrg extends Migration {
              */
             
             Schema::table('s_q_depts', function(Blueprint $table) {
-                $table->dropForeign('s_q_depts_org_id_foreign');
-                $table->dropIndex('s_q_depts_org_id_index');
+               // $table->dropForeign('s_q_depts_org_id_foreign');
+               // $table->dropIndex('s_q_depts_org_id_index');
             });
 	}
 

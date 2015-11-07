@@ -128,4 +128,18 @@ class S_q_orgsController extends BaseController {
 		return Redirect::route('s_q_orgs.index');
 	}
 
+        public function test()
+        {
+        //return link_to(route('auth.logout'), 'Выход');
+            $s_q_orgs = $this->s_q_org->all();
+            return View::make('test', compact('s_q_orgs'));
+        }
+        
+        public function ajaxform()
+        {
+        //return link_to(route('auth.logout'), 'Выход');
+            $s_q_orgs = $this->s_q_org->all();
+            return View::make('ajaxform', compact('s_q_orgs'));
+        }
+        
 }

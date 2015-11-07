@@ -138,6 +138,11 @@ Route::group(array('before' => 'auth'), function ()
             'as' => 'getpult', 
             'uses' => 'PultController@index'
         ));
+        Route::get('pult/ajaxpultform', [
+        'as'    => 'ajaxpultform',
+        'uses'  => 'PultController@ajaxpultform'
+        ]);
+        
         
         Route::post('pult/FinishServing', array(
             'as' => 'FinishServing', 

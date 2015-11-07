@@ -36,10 +36,6 @@ class HomeController extends BaseController {
         return View::make('index');
     }
     
-    public function test()
-    {
-        //return link_to(route('auth.logout'), 'Выход');
-        return View::make('test');
-    }
+
 
 }

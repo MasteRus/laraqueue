@@ -9,7 +9,7 @@ class PultController extends BaseController {
     
     	public function index()
 	{
-		return View::make('Pult.index')
+		return View::make('pult.index')
                         //->with('message', '<PRE>'.var_dump($MainQueue1).'</pRE>')
                         //->with('message', '<PRE>'.dd($str).'</PRE>')
                 ;
@@ -163,4 +163,10 @@ class PultController extends BaseController {
                     ;           
         }
         
+       
+        public function ajaxpultform()
+        {
+        //return link_to(route('auth.logout'), 'Выход');
+            return View::make('pult.ajaxpultform');
+        }
 }
